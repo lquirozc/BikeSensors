@@ -1,14 +1,14 @@
 package cordova.plugin.bikesensors;
 
- class MachineInfo {
+public class MachineInfo {
 
     public static  int MIN_LOAD = 1;
 
     public static  int MAX_LOAD = 1;
 
-     public static  int MIN_INCLINE = 0;
+    public static  int MIN_INCLINE = 0;
 
-     public static  int MAX_INCLINE = 0;
+    public static  int MAX_INCLINE = 0;
 
     public static  int WHEEL_DIAMETER = 0;
 
