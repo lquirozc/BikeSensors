@@ -1,4 +1,4 @@
-package com.boqun.serialportdemo;
+package cordova.plugin.bikesensors;
 
  class MachineInfo {
 

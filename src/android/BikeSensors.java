@@ -96,9 +96,9 @@ public class BikeSensors extends CordovaPlugin {
                         isHaveIncline = bean.isHaveIncline();
     
     
-                        Message msg = handler.obtainMessage(1);
-                        msg.obj = builder.toString();
-                        msg.sendToTarget();
+                        // Message msg = handler.obtainMessage(1);
+                        // msg.obj = builder.toString();
+                        // msg.sendToTarget();
     
                         Log.e(TAG, "onSportInitialize: " + builder.toString());
                     }
@@ -107,9 +107,9 @@ public class BikeSensors extends CordovaPlugin {
                     public void onSportState(int state) {
                         String str = (state == SportState.STARTED ? "Start" : state == SportState.PAUSED ? "Pause" : state == SportState.STOPPED ? "Stop" : "Unknown");
     
-                        Message msg = handler.obtainMessage(3);
-                        msg.obj = "SportState：" + str;
-                        msg.sendToTarget();
+                        // Message msg = handler.obtainMessage(3);
+                        // msg.obj = "SportState：" + str;
+                        // msg.sendToTarget();
                     }
     
                     @Override
@@ -118,9 +118,9 @@ public class BikeSensors extends CordovaPlugin {
                         builder.append("\r\n").append("RPM Value:： ").append(rpm);
                         builder.append("\r\n").append("PULSE Value： ").append(heartRate);
     
-                        Message msg = handler.obtainMessage(2);
-                        msg.obj = builder.toString();
-                        msg.sendToTarget();
+                        // Message msg = handler.obtainMessage(2);
+                        // msg.obj = builder.toString();
+                        // msg.sendToTarget();
     
                         Log.e(TAG, "onSportData: " + builder.toString());
                     }
@@ -154,9 +154,9 @@ public class BikeSensors extends CordovaPlugin {
                                 break;
                         }
     
-                        Message msg = handler.obtainMessage(3);
-                        msg.obj = "Press:" + keyName;
-                        msg.sendToTarget();
+                        // Message msg = handler.obtainMessage(3);
+                        // msg.obj = "Press:" + keyName;
+                        // msg.sendToTarget();
     
                         Log.e(TAG, "onExternalKeyEvent: " + keyCode);
                     }
