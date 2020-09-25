@@ -12,11 +12,11 @@ var exec = require('cordova/exec');
 
 // };
 
-// module.exports.isPluginOK = function (success, error) {
+module.exports.isPluginOK = function (success, error) {
 
-//     exec(success, error, 'BikeSensors', 'isPluginOK');
+    exec(success, error, 'BikeSensors', 'isPluginOK');
 
-// };
+};
 
 module.exports.add = function (arg0, success, error) {
 
