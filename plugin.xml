@@ -16,5 +16,6 @@
         </config-file>
         <config-file parent="/*" target="AndroidManifest.xml"></config-file>
         <source-file src="src/android/BikeSensors.java" target-dir="src/cordova/plugin/bikesensors/BikeSensors" />
+        <source-file src="src/android/MachineInfo.java" target-dir="src/cordova/plugin/bikesensors/BikeSensors" />
     </platform>
 </plugin>
