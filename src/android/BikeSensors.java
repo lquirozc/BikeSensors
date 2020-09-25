@@ -59,115 +59,132 @@ public class BikeSensors extends CordovaPlugin {
         return false;
     }
 
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        try {
+                
+            // int p1 = Integer.parseInt(args.getJSONObject(0).getString("param1"));
+            // int p2 = Integer.parseInt(args.getJSONObject(0).getString("param2"));
+
+            // callback.success("" + (p1 + p2));
+
+            BoQunBike.init(this, new OnBikeDataListener() {
+                @Override
+                public void onSportInitialize(MachineBean bean) {
+                    StringBuilder builder = new StringBuilder();
+
+                    builder.append("\r\n").append("WATT Group： ").append(bean.getWattGroup());
+                    builder.append("\r\n").append("Wheel Diameter： ").append(bean.getWheelDiameter());
+                    builder.append("\r\n").append("Client ID： ").append(bean.getClientId());
+                    builder.append("\r\n").append("Min Load： ").append(bean.getMinLoad());
+                    builder.append("\r\n").append("Max Load： ").append(bean.getMaxLoad());
+                    builder.append("\r\n").append("Is there a fan： ").append((bean.isHaveFan() ? "Yes" : "No"));
+                    builder.append("\r\n").append("Is there a incline： ").append((bean.isHaveIncline() ? "Yes" : "No"));
+                    builder.append("\r\n").append("Min Incline： ").append(bean.getMinIncline());
+                    builder.append("\r\n").append("Max Incline： ").append(bean.getMaxIncline());
+
+                    MachineInfo.MIN_LOAD = bean.getMinLoad();
+                    MachineInfo.MAX_LOAD = bean.getMaxLoad();
+                    MachineInfo.MIN_INCLINE = bean.getMinIncline();
+                    MachineInfo.MAX_INCLINE = bean.getMaxIncline();
+                    MachineInfo.WHEEL_DIAMETER = bean.getWheelDiameter();
+
+                    currentLoad = bean.getMinLoad();
+                    currentIncline = bean.getMinIncline();
+
+                    isHaveIncline = bean.isHaveIncline();
+
+
+                    // Message msg = handler.obtainMessage(1);
+                    // msg.obj = builder.toString();
+                    // msg.sendToTarget();
+
+                    Log.e(TAG, "onSportInitialize: " + builder.toString());
+                }
+
+                @Override
+                public void onSportState(int state) {
+                    String str = (state == SportState.STARTED ? "Start" : state == SportState.PAUSED ? "Pause" : state == SportState.STOPPED ? "Stop" : "Unknown");
+
+                    // Message msg = handler.obtainMessage(3);
+                    // msg.obj = "SportState：" + str;
+                    // msg.sendToTarget();
+                }
+
+                @Override
+                public void onSportData(int rpm, int heartRate) {
+                    StringBuilder builder = new StringBuilder();
+                    builder.append("\r\n").append("RPM Value:： ").append(rpm);
+                    builder.append("\r\n").append("PULSE Value： ").append(heartRate);
+
+                    // Message msg = handler.obtainMessage(2);
+                    // msg.obj = builder.toString();
+                    // msg.sendToTarget();
+
+                    Log.e(TAG, "onSportData: " + builder.toString());
+                }
+
+                @Override
+                public void onExternalKeyEvent(int keyCode) {
+                    String keyName = "Unknown Key";
+                    switch (keyCode) {
+                        case KeyCode.START_PAUSE:
+                            keyName = "Start or Pause Key";
+                            break;
+                        case KeyCode.STOP:
+                            keyName = "Stop key";
+                            break;
+                        case KeyCode.LOAD_UP:
+                            keyName = "Load Up key";
+                            break;
+                        case KeyCode.LOAD_DOWN:
+                            keyName = "Load Down Key";
+                            break;
+                        case KeyCode.INCLINE_UP:
+                            keyName = "Incline Up Key";
+                            break;
+                        case KeyCode.INCLINE_DOWN:
+                            keyName = "Incline Down Key";
+                            break;
+                        case KeyCode.FAN:
+                            keyName = "Fan Key";
+                            break;
+                        default:
+                            break;
+                    }
+
+                    // Message msg = handler.obtainMessage(3);
+                    // msg.obj = "Press:" + keyName;
+                    // msg.sendToTarget();
+
+                    Log.e(TAG, "onExternalKeyEvent: " + keyCode);
+                }
+            });
+
+            
+        } catch (Exception ex) {
+
+            callback.error("Ha ocurrido un error" + ex);
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        // if (handler != null) {
+        //     handler.removeCallbacksAndMessages(null);
+        //     handler = null;
+        // }
+        BoQunBike.destroy();
+    }
+
+
     private void initBike(CallbackContext callback){
 
-
-            try {
-                
-                // int p1 = Integer.parseInt(args.getJSONObject(0).getString("param1"));
-                // int p2 = Integer.parseInt(args.getJSONObject(0).getString("param2"));
-
-                // callback.success("" + (p1 + p2));
-
-                BoQunBike.init(this, new OnBikeDataListener() {
-                    @Override
-                    public void onSportInitialize(MachineBean bean) {
-                        StringBuilder builder = new StringBuilder();
-    
-                        builder.append("\r\n").append("WATT Group： ").append(bean.getWattGroup());
-                        builder.append("\r\n").append("Wheel Diameter： ").append(bean.getWheelDiameter());
-                        builder.append("\r\n").append("Client ID： ").append(bean.getClientId());
-                        builder.append("\r\n").append("Min Load： ").append(bean.getMinLoad());
-                        builder.append("\r\n").append("Max Load： ").append(bean.getMaxLoad());
-                        builder.append("\r\n").append("Is there a fan： ").append((bean.isHaveFan() ? "Yes" : "No"));
-                        builder.append("\r\n").append("Is there a incline： ").append((bean.isHaveIncline() ? "Yes" : "No"));
-                        builder.append("\r\n").append("Min Incline： ").append(bean.getMinIncline());
-                        builder.append("\r\n").append("Max Incline： ").append(bean.getMaxIncline());
-    
-                        MachineInfo.MIN_LOAD = bean.getMinLoad();
-                        MachineInfo.MAX_LOAD = bean.getMaxLoad();
-                        MachineInfo.MIN_INCLINE = bean.getMinIncline();
-                        MachineInfo.MAX_INCLINE = bean.getMaxIncline();
-                        MachineInfo.WHEEL_DIAMETER = bean.getWheelDiameter();
-    
-                        currentLoad = bean.getMinLoad();
-                        currentIncline = bean.getMinIncline();
-    
-                        isHaveIncline = bean.isHaveIncline();
-    
-    
-                        // Message msg = handler.obtainMessage(1);
-                        // msg.obj = builder.toString();
-                        // msg.sendToTarget();
-    
-                        Log.e(TAG, "onSportInitialize: " + builder.toString());
-                    }
-    
-                    @Override
-                    public void onSportState(int state) {
-                        String str = (state == SportState.STARTED ? "Start" : state == SportState.PAUSED ? "Pause" : state == SportState.STOPPED ? "Stop" : "Unknown");
-    
-                        // Message msg = handler.obtainMessage(3);
-                        // msg.obj = "SportState：" + str;
-                        // msg.sendToTarget();
-                    }
-    
-                    @Override
-                    public void onSportData(int rpm, int heartRate) {
-                        StringBuilder builder = new StringBuilder();
-                        builder.append("\r\n").append("RPM Value:： ").append(rpm);
-                        builder.append("\r\n").append("PULSE Value： ").append(heartRate);
-    
-                        // Message msg = handler.obtainMessage(2);
-                        // msg.obj = builder.toString();
-                        // msg.sendToTarget();
-    
-                        Log.e(TAG, "onSportData: " + builder.toString());
-                    }
-    
-                    @Override
-                    public void onExternalKeyEvent(int keyCode) {
-                        String keyName = "Unknown Key";
-                        switch (keyCode) {
-                            case KeyCode.START_PAUSE:
-                                keyName = "Start or Pause Key";
-                                break;
-                            case KeyCode.STOP:
-                                keyName = "Stop key";
-                                break;
-                            case KeyCode.LOAD_UP:
-                                keyName = "Load Up key";
-                                break;
-                            case KeyCode.LOAD_DOWN:
-                                keyName = "Load Down Key";
-                                break;
-                            case KeyCode.INCLINE_UP:
-                                keyName = "Incline Up Key";
-                                break;
-                            case KeyCode.INCLINE_DOWN:
-                                keyName = "Incline Down Key";
-                                break;
-                            case KeyCode.FAN:
-                                keyName = "Fan Key";
-                                break;
-                            default:
-                                break;
-                        }
-    
-                        // Message msg = handler.obtainMessage(3);
-                        // msg.obj = "Press:" + keyName;
-                        // msg.sendToTarget();
-    
-                        Log.e(TAG, "onExternalKeyEvent: " + keyCode);
-                    }
-                });
-
-                callback.success("Creado el init");
-            } catch (Exception ex) {
-
-                callback.error("Ha ocurrido un error" + ex);
-            }
-
+        callback.success("Creado el init");
     }
 
     private void startBike(CallbackContext callback){
