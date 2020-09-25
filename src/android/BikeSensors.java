@@ -155,9 +155,9 @@ public class BikeSensors extends CordovaPlugin {
 
             callback.success("Creado el init");
 
-            } catch (Exception e) {
+            } catch (Exception ex) {
 
-                e.printStackTrace();
+                callback.error("Ha ocurrido un error" + ex);
             }
         }
        
@@ -170,9 +170,12 @@ public class BikeSensors extends CordovaPlugin {
                 
                 BoQunBike.start();
                 BoQunBike.setLoadValue(currentIncline, 50);
+
                 if (isHaveIncline) {
                     BoQunBike.setInclineValue(currentIncline, 100);
                 }
+
+                callback.success("start se está ejecutado");
 
             } catch (Exception ex) {
 
