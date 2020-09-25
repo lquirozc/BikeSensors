@@ -28,6 +28,8 @@ import com.boqun.port.uart.SportState;
  */
 public class BikeSensors extends CordovaPlugin {
 
+    Context context = this.cordova.getActivity().getApplicationContext();
+
     private static final String TAG = BikeSensors.class.getSimpleName();
 
     private boolean isHaveIncline = false;
@@ -59,7 +61,7 @@ public class BikeSensors extends CordovaPlugin {
     private void initBike(CallbackContext callback){
         try {
                 
-            BoQunBike.init(this, new OnBikeDataListener() {
+            BoQunBike.init(context, new OnBikeDataListener() {
                 @Override
                 public void onSportInitialize(MachineBean bean) {
                     StringBuilder builder = new StringBuilder();
