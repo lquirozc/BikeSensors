@@ -11,3 +11,9 @@ module.exports.startBike = function (arg0, success, error) {
     exec(success, error, 'BikeSensors', 'startBike', [arg0]);
 
 };
+
+module.exports.isPluginOK = function (success, error) {
+
+    exec(success, error, 'BikeSensors', 'isPluginOK');
+
+};

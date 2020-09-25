@@ -54,6 +54,12 @@ public class BikeSensors extends CordovaPlugin {
             this.startBike(callbackContext);
             return true;
         }
+        else if(action.equals("isPluginOK"))
+        {
+
+            this.isPluginOK(callbackContext);
+            return true;
+        }
 
         return false;
     }
@@ -184,6 +190,10 @@ public class BikeSensors extends CordovaPlugin {
                 callback.error("Ha ocurrido un error" + ex);
             }
 
+    }
+
+    private void isPluginOK(CallbackContext callback){
+        callback.success("el plugin está OK");
     }
   
 }
