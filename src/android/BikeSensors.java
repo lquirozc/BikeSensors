@@ -59,18 +59,39 @@ public class BikeSensors extends CordovaPlugin {
         return false;
     }
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    private void initBike(CallbackContext callback){
+
+        callback.success("Creado el init");
+    }
+
+    private void startBike(CallbackContext callback){
+
+
+            try {
+                
+                BoQunBike.start();
+                BoQunBike.setLoadValue(currentIncline, 50);
+                if (isHaveIncline) {
+                    BoQunBike.setInclineValue(currentIncline, 100);
+                }
+
+            } catch (Exception ex) {
+
+                callback.error("Ha ocurrido un error" + ex);
+            }
+
+    }
+
+    
+    public class MainActivity extends AppCompatActivity{
+
+        @Override
+        protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         try {
                 
-            // int p1 = Integer.parseInt(args.getJSONObject(0).getString("param1"));
-            // int p2 = Integer.parseInt(args.getJSONObject(0).getString("param2"));
-
-            // callback.success("" + (p1 + p2));
-
             BoQunBike.init(this, new OnBikeDataListener() {
                 @Override
                 public void onSportInitialize(MachineBean bean) {
@@ -165,65 +186,42 @@ public class BikeSensors extends CordovaPlugin {
             });
 
             
-        } catch (Exception ex) {
+            } catch (Exception e) {
 
-            callback.error("Ha ocurrido un error" + ex);
+                e.printStackTrace();
+            }
         }
-    }
 
-    @Override
-    protected void onDestroy() {
+        @Override
+        protected void onDestroy() {
         super.onDestroy();
         // if (handler != null) {
         //     handler.removeCallbacksAndMessages(null);
         //     handler = null;
         // }
         BoQunBike.destroy();
-    }
-
-
-    private void initBike(CallbackContext callback){
-
-        callback.success("Creado el init");
-    }
-
-    private void startBike(CallbackContext callback){
-
-
-            try {
-                
-                BoQunBike.start();
-                BoQunBike.setLoadValue(currentIncline, 50);
-                if (isHaveIncline) {
-                    BoQunBike.setInclineValue(currentIncline, 100);
-                }
-
-            } catch (Exception ex) {
-
-                callback.error("Ha ocurrido un error" + ex);
-            }
-
+        }
     }
 }
 
-public class MachineInfo {
+// public class MachineInfo {
 
-    public static  int MIN_LOAD = 1;
+//     public static  int MIN_LOAD = 1;
 
-    public static  int MAX_LOAD = 1;
+//     public static  int MAX_LOAD = 1;
 
-    public static  int MIN_INCLINE = 0;
+//     public static  int MIN_INCLINE = 0;
 
-    public static  int MAX_INCLINE = 0;
+//     public static  int MAX_INCLINE = 0;
 
-    public static  int WHEEL_DIAMETER = 0;
+//     public static  int WHEEL_DIAMETER = 0;
 
-    public static  int CLIENT_ID = 0;
+//     public static  int CLIENT_ID = 0;
 
-    public static  int WATT_GROUP = 0;
+//     public static  int WATT_GROUP = 0;
 
-    public static  boolean IS_HAVE_INCLINE = false;
+//     public static  boolean IS_HAVE_INCLINE = false;
 
-    public static  boolean IS_HAVE_FAN = false;
+//     public static  boolean IS_HAVE_FAN = false;
 
-}
+// }

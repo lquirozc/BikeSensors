@@ -1,4 +1,4 @@
-package com.boqun.serialportdemo;
+package cordova.plugin.bikesensors;
 
 import android.content.Context;
 import android.widget.Toast;
