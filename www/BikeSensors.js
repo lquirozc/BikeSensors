@@ -17,3 +17,9 @@ module.exports.isPluginOK = function (success, error) {
     exec(success, error, 'BikeSensors', 'isPluginOK');
 
 };
+
+module.exports.add = function (arg0, success, error) {
+
+    exec(success, error, 'BikeSensors', 'add', [arg0]);
+    
+};
