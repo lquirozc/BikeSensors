@@ -155,13 +155,13 @@ public class BikeSensors extends CordovaPlugin {
 
             callback.success("Creado el init");
 
-            } catch (Exception ex) {
+        } catch (Exception ex) {
 
-                callback.error("Ha ocurrido un error" + ex);
-            }
+            callback.error("Ha ocurrido un error" + ex);
         }
-       
     }
+       
+    
 
     private void startBike(CallbackContext callback){
 
